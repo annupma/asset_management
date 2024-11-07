@@ -1,0 +1,6 @@
+<h2>Bulk Upload Devices</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="devices_file" required>
+    <button type="submit">Upload</button>
+</form>
