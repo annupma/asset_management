@@ -10,7 +10,6 @@ import logging
 from django.contrib import messages
 from tablib import Dataset
 
-# import pdb ; pdb.set_trace()
 
 # Create your views here.
 def index(request):
@@ -144,35 +143,3 @@ class InventoryListView(generic.ListView):
     template_name = 'inv.html'
     paginate_by = 48
 
-
-""" Bulk Import for Devices"""
-class BulkImportDevices(generic.ListView):
-    model = Device
-    template_name = 'catalog/import_bulk_devices.html'
-
-
-    def bulk_import_devices(request):
-        if request.method == 'POST':
-            print("Inside POST call ******************************")
-            device_resource = Device
-            dataset = Dataset()
-            new_devices = request.FILES['devices_file']
-
-            try:
-                imported_data = dataset.load(new_devices.read(), format='csv')  # Or 'xls' for Excel
-                result = device_resource.import_data(dataset, dry_run=True)  # Test the import
-
-                if not result.has_errors():
-                    device_resource.import_data(dataset, dry_run=False)  # Actually import now
-                    messages.success(request, 'Devices imported successfully.')
-                else:
-                    messages.error(request, 'Import encountered errors.')
-            except Exception as e:
-                messages.error(request, f'An error occurred: {e}')
-
-            return redirect('import_devices')
-        elif request.method == 'GET':
-            print("Inside GET call ******************************")
-            return render(request, 'catalog/import_devices.html')
-
-        return render(request, 'catalog/import_bulk_devices.html')

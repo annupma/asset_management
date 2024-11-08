@@ -3,21 +3,22 @@ from import_export.fields import Field
 from import_export.widgets import ForeignKeyWidget, DateWidget
 from .models import Device, Customer, Model, Type, Inventory, Location
 
+
 class DevicelistResource(resources.ModelResource):
     """
         Import Device
     """
 
     hostname = Field(attribute='hostname', column_name='Hostname')
-    customer = Field(attribute='customer', column_name='Customer', widget=ForeignKeyWidget(Customer, 'last_name'))
+    customer = Field(attribute='customer', column_name='Customer', widget=ForeignKeyWidget(Customer, 'first_name'))
     model = Field(attribute='model', column_name='Model', widget=ForeignKeyWidget(Model, 'name'))
     serialn = Field(attribute='serialn', column_name='S/N')
     tag = Field(attribute='tag', column_name='Tag')
     type = Field(column_name='Type', attribute='type', widget=ForeignKeyWidget(Type, 'type'))
     location = Field(attribute='location', column_name='Location', widget=ForeignKeyWidget(Location, 'name'))
     buydate = Field(attribute='buydate', column_name='Buy date', widget=DateWidget('%d/%m/%Y'))
-    status = Field(attribute='status_verbose', column_name='Status')
-    substatus = Field(attribute='substatus_verbose', column_name='SubStatus')
+    status = Field(attribute='status', column_name='Status')
+    substatus = Field(attribute='substatus', column_name='SubStatus')
     warranty = Field(attribute='warranty', column_name='Warranty', widget=DateWidget('%d/%m/%Y'))
     cost = Field(attribute='cost', column_name='Cost')
 
