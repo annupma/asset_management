@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.views.generic import ListView
 from django.db.models import Count, Q
-from .models import Device, Customer, Model, Tracker, Inventory
+from .models import Device, Customer
 from django.views import generic
 from django.urls import reverse
 import logging
@@ -101,28 +101,28 @@ class CustomerDetailView(generic.DetailView):
         return context
 
 
-""" Tracker list view """
-class TrackerListView(generic.ListView):
-    model = Tracker
-    context_object_name = 'tracker_list'
-    template_name = 'catalog/tracker_list.html'
-    paginate_by = 30
+# """ Tracker list view """
+# class TrackerListView(generic.ListView):
+#     model = Tracker
+#     context_object_name = 'tracker_list'
+#     template_name = 'catalog/tracker_list.html'
+#     paginate_by = 30
 
 
-""" Tracker detail view """
-class TrackerDetailView(generic.DetailView):
-    model = Tracker
-    context_object_name = 'tracker'
+# """ Tracker detail view """
+# class TrackerDetailView(generic.DetailView):
+#     model = Tracker
+#     context_object_name = 'tracker'
 
 
-    template_name = 'catalog/tracker_detail.html'
-    def get_queryset(self):
-        return Tracker.objects.all()
+#     template_name = 'catalog/tracker_detail.html'
+#     def get_queryset(self):
+#         return Tracker.objects.all()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tracker_listkz'] = Customer.objects.all()
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['tracker_listkz'] = Customer.objects.all()
+#         return context
 
 """ Search view """
 class SearchResultsView(generic.ListView):
@@ -136,10 +136,10 @@ class SearchResultsView(generic.ListView):
                                             Q(serialn__icontains=query) | Q(customer__last_name__icontains=query) | Q(model__name__icontains=query))
         return object_list
 
-""" Inventory data view """
-class InventoryListView(generic.ListView):
-    model = Inventory
-    context_object_name = 'object_list'
-    template_name = 'inv.html'
-    paginate_by = 48
+# """ Inventory data view """
+# class InventoryListView(generic.ListView):
+#     model = Inventory
+#     context_object_name = 'object_list'
+#     template_name = 'inv.html'
+#     paginate_by = 48
 
